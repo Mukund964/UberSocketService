@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,9 +32,7 @@ public class RideRequestController {
     }
     @PostMapping("/newride")
     public ResponseEntity<Boolean> raiseRideRequest(@RequestBody RideRequestDto rideRequestDto){
-        System.out.println("Ride Request Received");
         sendDriversNewRideRequest(rideRequestDto);
-        System.out.println("Req completed");
         return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
     }
 
@@ -42,12 +41,16 @@ public class RideRequestController {
     }
 
     @MessageMapping("/rideresponse/{userId}")
-    public void rideResponseHandler(@DestinationVariable String userId, RideResponseDto rideResponseDto){
+    public void rideResponseHandler(@DestinationVariable Long userId, @Payload RideResponseDto rideResponseDto){
+
         updateBookingRequestDto requestDto = updateBookingRequestDto.builder()
-                .driverId(Optional.of(Long.parseLong(userId)))
-                .status("SCHEDULED")
+                .driverId(Optional.of(userId))
+                .BookingStatus("SCHEDULED")
                 .build();
-        ResponseEntity<updateBookingResponseDto> result = this.restTemplate.postForEntity("http://localhost:8001/api/v1/booking/" + rideResponseDto.bookingId, requestDto, updateBookingResponseDto.class);
-        System.out.println(result.getStatusCode());
+
+
+
+        this.restTemplate.patchForObject("http://localhost:7777/api/v1/booking/update/" + rideResponseDto.bookingId, requestDto, updateBookingResponseDto.class);
+      
     }
 }

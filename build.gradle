@@ -37,6 +37,11 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'com.example:entity-service:0.0.7-SNAPSHOT'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:5.0.0'
+    implementation ("org.apache.httpcomponents.client5:httpclient5:5.2.1")
+
+
+
+
 }
 
 

@@ -1,9 +1,15 @@
 package org.example.socketstarter.dtos;
 
 import com.example.EntityService.Models.ExactLocation;
+import lombok.*;
 
 import java.util.List;
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RideRequestDto {
     private Long PassengerId;
     private Integer BookingId;
