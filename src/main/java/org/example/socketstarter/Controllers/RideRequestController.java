@@ -41,15 +41,12 @@ public class RideRequestController {
     }
 
     @MessageMapping("/rideresponse/{userId}")
-    public void rideResponseHandler(@DestinationVariable Long userId, @Payload RideResponseDto rideResponseDto){
+    public synchronized void rideResponseHandler(@DestinationVariable Long userId, @Payload RideResponseDto rideResponseDto){
 
         updateBookingRequestDto requestDto = updateBookingRequestDto.builder()
                 .driverId(Optional.of(userId))
                 .BookingStatus("SCHEDULED")
                 .build();
-
-
-
         this.restTemplate.patchForObject("http://localhost:7777/api/v1/booking/update/" + rideResponseDto.bookingId, requestDto, updateBookingResponseDto.class);
       
     }
