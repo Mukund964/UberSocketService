@@ -52,7 +52,7 @@ public class RideRequestController {
                 .driverId(Optional.of(userId))
                 .BookingStatus("SCHEDULED")
                 .build();
-        this.restTemplate.patchForObject("http://localhost:7777/api/v1/booking/update/" + rideResponseDto.bookingId, requestDto, updateBookingResponseDto.class);
+       // this.restTemplate.patchForObject("http://localhost:7777/api/v1/booking/update/" + rideResponseDto.bookingId, requestDto, updateBookingResponseDto.class);
       
     }
 }

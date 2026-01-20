@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class kafkaConsumerService {
 
-    @KafkaListener(topics = "sample-topic", groupId = "foo")
+    @KafkaListener(topics = "sample-topic", groupId = "sample-group")
     public void listen(String message) {
-        System.out.println("Received Message in group foo: " + message);
+        System.out.println("Received Message in service : " + message);
     }
 }
