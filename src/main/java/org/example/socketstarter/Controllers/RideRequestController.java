@@ -4,6 +4,7 @@ import org.example.socketstarter.dtos.RideRequestDto;
 import org.example.socketstarter.dtos.RideResponseDto;
 import org.example.socketstarter.dtos.updateBookingRequestDto;
 import org.example.socketstarter.dtos.updateBookingResponseDto;
+import org.example.socketstarter.producer.kafkaProducerService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +26,12 @@ public class RideRequestController {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final RestTemplate restTemplate;
+    private final kafkaProducerService kafkaProducerService;
 
-    RideRequestController(SimpMessagingTemplate simpMessagingTemplate,RestTemplate restTemplate){
+    RideRequestController(SimpMessagingTemplate simpMessagingTemplate,RestTemplate restTemplate,kafkaProducerService kafkaProducerService){
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.restTemplate = restTemplate;
+        this.kafkaProducerService = kafkaProducerService;
     }
     @PostMapping("/newride")
     public ResponseEntity<Boolean> raiseRideRequest(@RequestBody RideRequestDto rideRequestDto){
@@ -42,6 +45,8 @@ public class RideRequestController {
 
     @MessageMapping("/rideresponse/{userId}")
     public synchronized void rideResponseHandler(@DestinationVariable Long userId, @Payload RideResponseDto rideResponseDto){
+
+        kafkaProducerService.publishMessage("sample-topic" , "Hello");
 
         updateBookingRequestDto requestDto = updateBookingRequestDto.builder()
                 .driverId(Optional.of(userId))
