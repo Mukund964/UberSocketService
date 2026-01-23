@@ -46,12 +46,14 @@ public class RideRequestController {
     @MessageMapping("/rideresponse/{userId}")
     public synchronized void rideResponseHandler(@DestinationVariable Long userId, @Payload RideResponseDto rideResponseDto){
 
-        kafkaProducerService.publishMessage("sample-topic" , "Hello");
+        //kafkaProducerService.publishMessage("sample-topic" , "Hello");
 
         updateBookingRequestDto requestDto = updateBookingRequestDto.builder()
                 .driverId(Optional.of(userId))
                 .BookingStatus("SCHEDULED")
                 .build();
+
+        kafkaProducerService.publishMessage("sample-topic", requestDto);
        // this.restTemplate.patchForObject("http://localhost:7777/api/v1/booking/update/" + rideResponseDto.bookingId, requestDto, updateBookingResponseDto.class);
       
     }

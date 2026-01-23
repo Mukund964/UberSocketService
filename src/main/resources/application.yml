@@ -1,0 +1,27 @@
+#spring.application.name=SocketStarter
+#spring.datasource.url=jdbc:mysql://localhost:3306/Uber_DB_Local
+#spring.datasource.username=root
+#spring.datasource.password=Root@123
+#spring.jpa.hibernate.ddl-auto=validate
+#spring.jpa.show-sql=true
+#spring.kafka.consumer.group-id: sample-group
+#spring.kafka.consumer.auto-offset-reset: earliest
+#spring.kafka.producer.key-serializer: "org.apache.kafka.common.serialization.StringSerializer"
+#spring.kafka.produce.value-serializer: "org.springframework.kafka.support.serializer.JsonSerializer"
+
+spring:
+  application:
+    name: SocketStarter
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/Uber_DB_Local
+    username: root
+    password: Root@123
+  jpa:
+    show-sql: true
+  Kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+server:
+  port: 3333
